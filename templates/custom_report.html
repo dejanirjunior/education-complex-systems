@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório do Experimento Personalizado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            color: #1f2937;
+            background: #ffffff;
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+            color: #0f172a;
+        }
+
+        p, li {
+            line-height: 1.6;
+        }
+
+        .note {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #d1d5db;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: #e5e7eb;
+        }
+
+        .legend-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .legend-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .graph {
+            margin-bottom: 28px;
+            page-break-inside: avoid;
+        }
+
+        .graph img {
+            width: 100%;
+            max-width: 1000px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .actions {
+            margin-bottom: 24px;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        @media print {
+            .actions {
+                display: none;
+            }
+
+            body {
+                margin: 15px;
+            }
+
+            .graph img {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="actions">
+        <button type="button" onclick="window.print()">Imprimir / Salvar como PDF</button>
+        <button type="button" onclick="window.close()">Fechar</button>
+    </div>
+
+    <h1>Relatório do Experimento Personalizado</h1>
+
+    <div class="note">
+        Este relatório resume a rodada personalizada executada no laboratório de simulação.
+        Para gerar um PDF, clique em <strong>Imprimir / Salvar como PDF</strong> e use a opção do navegador.
+    </div>
+
+    <h2>1. Resumo final do experimento</h2>
+    <p>
+        A tabela abaixo apresenta os principais indicadores ao final da simulação personalizada.
+    </p>
+
+    {{ summary_html | safe }}
+
+    <div class="legend-box">
+        <h3>Legenda das variáveis da tabela</h3>
+        <ul>
+            <li><strong>scenario</strong>: nome do cenário simulado</li>
+            <li><strong>avg_knowledge</strong>: conhecimento médio acumulado dos alunos</li>
+            <li><strong>avg_computational</strong>: pensamento computacional médio</li>
+            <li><strong>pisa_like</strong>: indicador educacional sintético comparável dentro do modelo</li>
+            <li><strong>tech_ready_share</strong>: proporção de alunos prontos para áreas tecnológicas</li>
+            <li><strong>economy_productivity</strong>: produtividade econômica agregada</li>
+            <li><strong>capital_attraction</strong>: capacidade do sistema de atrair capital</li>
+            <li><strong>innovation_capacity</strong>: capacidade de inovação do sistema</li>
+            <li><strong>education_investment</strong>: investimento educacional total no cenário</li>
+            <li><strong>effective_spending</strong>: parcela do investimento que efetivamente gerou ação útil</li>
+            <li><strong>spending_loss</strong>: perda entre gasto nominal e gasto efetivo</li>
+            <li><strong>institutional_quality</strong>: indicador sintético da qualidade institucional</li>
+        </ul>
+    </div>
+
+    <h2>2. Interpretação automática</h2>
+    <p>
+        Os comentários abaixo foram produzidos pelo próprio código, a partir dos resultados numéricos da simulação.
+    </p>
+    <ul>
+        {% for item in insights %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>3. Gráficos do experimento</h2>
+
+    <div class="graph">
+        <h3>3.1 Desempenho educacional sintético</h3>
+        <p>
+            Este gráfico mostra a evolução do indicador educacional sintético ao longo dos anos simulados.
+            Ele ajuda a observar se o cenário produziu crescimento contínuo, lento ou acelerado do desempenho médio.
+        </p>
+        <img src="{{ url_for('static', filename='output/custom_grafico_pisa_like.png') }}" alt="Desempenho educacional sintético">
+    </div>
+
+    <div class="graph">
+        <h3>3.2 Pensamento computacional</h3>
+        <p>
+            Este gráfico mostra a evolução do pensamento computacional no cenário personalizado.
+            É especialmente útil para avaliar o efeito da política de computação e da formação docente.
+        </p>
+        <img src="{{ url_for('static', filename='output/custom_grafico_pensamento_computacional.png') }}" alt="Pensamento computacional">
+    </div>
+
+    <div class="graph">
+        <h3>3.3 Produtividade econômica</h3>
+        <p>
+            Este gráfico apresenta a resposta econômica agregada do sistema.
+            Em geral, a produtividade tende a reagir com alguma defasagem em relação aos ganhos educacionais.
+        </p>
+        <img src="{{ url_for('static', filename='output/custom_grafico_produtividade.png') }}" alt="Produtividade econômica">
+    </div>
+
+    <div class="graph">
+        <h3>3.4 Atração de capital</h3>
+        <p>
+            Este gráfico representa a capacidade do sistema de se tornar mais atrativo para capital e investimento,
+            combinando produtividade, inovação e ambiente institucional.
+        </p>
+        <img src="{{ url_for('static', filename='output/custom_grafico_atracao_capital.png') }}" alt="Atração de capital">
+    </div>
+
+    <div class="graph">
+        <h3>3.5 Capacidade de inovação</h3>
+        <p>
+            Este gráfico mostra a evolução da capacidade inovadora do sistema.
+            Ele ajuda a entender se o capital humano gerado está sendo convertido em dinamismo tecnológico.
+        </p>
+        <img src="{{ url_for('static', filename='output/custom_grafico_inovacao.png') }}" alt="Capacidade de inovação">
+    </div>
+
+    <div class="graph">
+        <h3>3.6 Gasto educacional efetivo</h3>
+        <p>
+            Este gráfico distingue investimento nominal de investimento que realmente chega à ponta e produz efeito.
+            Ele é importante para discutir eficiência do gasto, burocracia e corrupção.
+        </p>
+        <img src="{{ url_for('static', filename='output/custom_grafico_gasto_efetivo.png') }}" alt="Gasto educacional efetivo">
+    </div>
+
+    <div class="graph">
+        <h3>3.7 Alunos prontos para áreas tecnológicas</h3>
+        <p>
+            Este gráfico mostra a evolução da proporção de alunos com perfil mais aderente a trajetórias tecnológicas,
+            o que ajuda a interpretar a formação futura de talentos.
+        </p>
+        <img src="{{ url_for('static', filename='output/custom_grafico_prontos_tecnologia.png') }}" alt="Alunos prontos para áreas tecnológicas">
+    </div>
+
+    <div class="graph">
+        <h3>3.8 Desigualdade educacional relativa</h3>
+        <p>
+            Este gráfico mostra se o avanço do sistema ocorreu de forma mais homogênea ou mais concentrada.
+            Ele é útil para discutir equidade e distribuição dos ganhos educacionais.
+        </p>
+        <img src="{{ url_for('static', filename='output/custom_grafico_desigualdade.png') }}" alt="Desigualdade educacional relativa">
+    </div>
+</body>
+</html>
+
+

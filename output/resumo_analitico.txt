@@ -1,0 +1,23 @@
+Resumo analítico da simulação
+
+1. Melhor resultado geral:
+- cenário: Ciclo_virtuoso_completo
+- indicador tipo PISA final: 557.7
+- ganho sobre baseline: 99.2%
+
+2. Computação estruturada:
+- indicador tipo PISA final: 403.2
+- ganho sobre baseline: 44.1%
+
+3. Boa educação com mau ambiente institucional:
+- indicador tipo PISA final: 293.6
+- diferença para computação estruturada: 109.6 pontos
+
+4. Muito gasto e pouca eficiência:
+- investimento educacional nominal final: 1.65
+- gasto efetivo final: 0.39
+- perda estimada: 1.26
+
+5. Leitura geral:
+O modelo sugere que o ensino de computação melhora os resultados educacionais e tecnológicos,
+mas sua conversão em produtividade e atração de capital depende fortemente da qualidade institucional.

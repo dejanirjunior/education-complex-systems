@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Laboratório de Simulação — Triângulo Virtuoso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            color: #1f2937;
+        }
+
+        header {
+            background: #0f172a;
+            color: white;
+            padding: 24px 32px;
+        }
+
+        main {
+            max-width: 1450px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 16px;
+            background: white;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            box-sizing: border-box;
+        }
+
+        .field-note {
+            font-size: 12px;
+            font-style: italic;
+            color: #475569;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary-btn {
+            background: #64748b;
+        }
+
+        .secondary-btn:hover {
+            background: #475569;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #d1d5db;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: #e5e7eb;
+        }
+
+        .note {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 12px 16px;
+            margin-top: 12px;
+            border-radius: 6px;
+        }
+
+        .warn {
+            background: #fff7ed;
+            border-left: 4px solid #ea580c;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            color: #9a3412;
+        }
+
+        .success-box {
+            background: #ecfdf5;
+            border-left: 4px solid #16a34a;
+            color: #166534;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .chart-card img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            margin-top: 10px;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .password-box {
+            background: #fff7ed;
+            border: 1px solid #fdba74;
+            border-left: 4px solid #ea580c;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 16px;
+            margin-bottom: 16px;
+            max-width: 420px;
+        }
+
+        .password-box label {
+            color: #9a3412;
+        }
+
+        .password-box .field-note {
+            color: #9a3412;
+            margin-bottom: 8px;
+        }
+
+        .password-input {
+            max-width: 260px;
+        }
+
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .anchor-target {
+            scroll-margin-top: 20px;
+        }
+
+        .legend-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        .legend-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .chart-clickable {
+            cursor: zoom-in;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            max-width: 95%;
+            max-height: 95%;
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .modal-close {
+            text-align: right;
+            margin-bottom: 8px;
+        }
+
+        .modal-close button {
+            background: #dc2626;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.75);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading-spinner {
+            width: 56px;
+            height: 56px;
+            border: 6px solid rgba(255,255,255,0.25);
+            border-top: 6px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            border-top: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+<body data-has-error="{{ 'true' if error_message else 'false' }}" data-has-success="{{ 'true' if success_message else 'false' }}">
+    <header>
+        <h1>Laboratório de Simulação — Triângulo Virtuoso</h1>
+        <p>
+            Interface para análise comparativa dos cenários padrão e para experimentação posterior com parâmetros customizados.
+        </p>
+    </header>
+
+    <main>
+        <section>
+            <h2>1. Como ler esta aplicação</h2>
+            <p>
+                A aplicação abre já com uma <strong>comparação padrão entre todos os cenários estruturados do modelo</strong>.
+                Abaixo, em seção separada, há um <strong>laboratório de experimento</strong> para que pesquisadores modifiquem variáveis
+                e executem novas rodadas sem apagar a comparação padrão.
+            </p>
+            <div class="note">
+                <strong>Cenários padrão:</strong> servem como referência metodológica e comparativa inicial.
+            </div>
+            <div class="note">
+                A comparação padrão pode levar alguns segundos para ser carregada, pois o sistema executa múltiplos cenários e gera gráficos automaticamente.
+            </div>
+            <div class="warn">
+                <strong>Indicador tipo PISA:</strong> é sintético e serve para comparação relativa dentro do modelo.
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Cenários padrão do modelo</h2>
+            <div class="grid">
+                {% for scenario in scenarios %}
+                <div class="card">
+                    <h3>{{ scenario.name }}</h3>
+                    <p>{{ scenario_descriptions[scenario.name] }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Comparação padrão — resultado final entre os cenários</h2>
+            <p>
+                A tabela abaixo mostra o estado final dos cenários padrão após a simulação. Ela é o ponto de partida da leitura científica do modelo.
+            </p>
+
+            {{ default_comparison_html | safe }}
+
+            <div class="legend-box">
+                <h3>Legenda das variáveis da tabela</h3>
+                <ul>
+                    <li><strong>scenario</strong>: nome do cenário simulado</li>
+                    <li><strong>avg_knowledge</strong>: conhecimento médio acumulado dos alunos</li>
+                    <li><strong>avg_computational</strong>: pensamento computacional médio</li>
+                    <li><strong>pisa_like</strong>: indicador educacional sintético comparável dentro do modelo</li>
+                    <li><strong>tech_ready_share</strong>: proporção de alunos prontos para áreas tecnológicas</li>
+                    <li><strong>economy_productivity</strong>: produtividade econômica agregada</li>
+                    <li><strong>capital_attraction</strong>: capacidade do sistema de atrair capital</li>
+                    <li><strong>innovation_capacity</strong>: capacidade de inovação do sistema</li>
+                    <li><strong>education_investment</strong>: investimento educacional total no cenário</li>
+                    <li><strong>effective_spending</strong>: parcela do investimento que efetivamente gera ação útil</li>
+                    <li><strong>spending_loss</strong>: perda entre gasto nominal e gasto efetivo</li>
+                    <li><strong>institutional_quality</strong>: indicador sintético da qualidade institucional</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Comparação padrão — interpretação automática</h2>
+            <ul>
+                {% for item in default_insights %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section>
+            <h2>5. Comparação padrão — gráficos</h2>
+            <div class="grid">
+                {% for file_name, explanation in default_chart_files %}
+                <div class="card chart-card">
+                    <p>{{ explanation }}</p>
+                    <img
+                        src="{{ url_for('static', filename='output/' + file_name) }}"
+                        alt="{{ file_name }}"
+                        class="chart-clickable"
+                        onclick="openModal(this.src)"
+                    >
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="experiment-section" class="anchor-target">
+            <h2>6. Laboratório de experimento</h2>
+            <p>
+                Use esta seção para criar uma rodada personalizada. O cenário base apenas carrega um conjunto inicial de valores.
+                Depois disso, qualquer variável pode ser alterada.
+            </p>
+
+            {% if error_message %}
+            <div class="warn">
+                {{ error_message }}
+            </div>
+            {% endif %}
+
+            {% if success_message %}
+            <div class="success-box">
+                {{ success_message }}
+            </div>
+            {% endif %}
+
+            <form method="post" id="simulationForm">
+                <div class="grid">
+                    <div>
+                        <label>Cenário base</label>
+                        <select name="base_scenario">
+                            {% for scenario in scenarios %}
+                            <option value="{{ scenario.name }}"
+                                {% if (form_data and form_data.base_scenario == scenario.name) or (not form_data and scenario.name == selected_base.name) %}selected{% endif %}>
+                                {{ scenario.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <div class="field-note">
+                            Escolha um conjunto inicial de valores. Esta tela executa um experimento personalizado por vez.
+                        </div>
+
+                        <label>Nome do cenário personalizado</label>
+                        <input type="text" name="custom_name" value="{{ form_data.custom_name if form_data else 'Cenario_personalizado' }}">
+                        <div class="field-note">
+                            Nome para identificar esta rodada.
+                        </div>
+
+                        <label>Quantidade de alunos</label>
+                        <input type="number" name="n_students" min="10" max="100000" step="1" value="{{ form_data.n_students if form_data else 1200 }}">
+                        <div class="field-note">
+                            Inteiro. Faixa sugerida: 10 a 100000.
+                        </div>
+
+                        <label>Quantidade de professores</label>
+                        <input type="number" name="n_teachers" min="1" max="10000" step="1" value="{{ form_data.n_teachers if form_data else 60 }}">
+                        <div class="field-note">
+                            Inteiro. Faixa sugerida: 1 a 10000.
+                        </div>
+
+                        <label>Quantidade de escolas</label>
+                        <input type="number" name="n_schools" min="1" max="5000" step="1" value="{{ form_data.n_schools if form_data else 30 }}">
+                        <div class="field-note">
+                            Inteiro. Faixa sugerida: 1 a 5000.
+                        </div>
+
+                        <label>Quantidade de empresas</label>
+                        <input type="number" name="n_companies" min="1" max="50000" step="1" value="{{ form_data.n_companies if form_data else 80 }}">
+                        <div class="field-note">
+                            Inteiro. Faixa sugerida: 1 a 50000.
+                        </div>
+
+                        <label>Anos de simulação</label>
+                        <input type="number" name="years" min="1" max="100" step="1" value="{{ form_data.years if form_data else 20 }}">
+                        <div class="field-note">
+                            Inteiro. Faixa sugerida: 1 a 100. Não usar valores decimais.
+                        </div>
+
+                        <label>Seed</label>
+                        <input type="number" name="seed" min="0" step="1" value="{{ form_data.seed if form_data else 42 }}">
+                        <div class="field-note">
+                            Número inicial da aleatoriedade. Mesma seed + mesmos parâmetros tendem a reproduzir o mesmo resultado.
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Investimento em educação</label>
+                        <input type="number" step="0.01" min="0.20" max="5.00" name="education_investment" value="{{ form_data.education_investment if form_data else selected_base.education_investment }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0.20 a 5.00. Esforço relativo de investimento educacional.
+                        </div>
+
+                        <label>Intensidade da política de computação</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="computation_policy" value="{{ form_data.computation_policy if form_data else selected_base.computation_policy }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Presença e estruturação do ensino de computação.
+                        </div>
+
+                        <label>Eficiência do gasto</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="efficiency" value="{{ form_data.efficiency if form_data else selected_base.efficiency }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Quanto do investimento vira ação útil.
+                        </div>
+
+                        <label>Corrupção</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="corruption" value="{{ form_data.corruption if form_data else selected_base.corruption }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Valores maiores indicam maior perda institucional.
+                        </div>
+
+                        <label>Risco país</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="risk" value="{{ form_data.risk if form_data else selected_base.risk }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Instabilidade que afeta confiança e investimento.
+                        </div>
+
+                        <label>Liberdade econômica</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="economic_freedom" value="{{ form_data.economic_freedom if form_data else selected_base.economic_freedom }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Grau de abertura para empreender e investir.
+                        </div>
+
+                        <label>Incentivo à inovação</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="innovation_incentive" value="{{ form_data.innovation_incentive if form_data else selected_base.innovation_incentive }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Estímulo institucional à inovação.
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Estabilidade da política</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="policy_stability" value="{{ form_data.policy_stability if form_data else selected_base.policy_stability }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Continuidade e previsibilidade das políticas.
+                        </div>
+
+                        <label>Formação docente</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="teacher_training" value="{{ form_data.teacher_training if form_data else selected_base.teacher_training }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Preparação dos professores para implementar a política.
+                        </div>
+
+                        <label>Responsabilização por resultados</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="accountability" value="{{ form_data.accountability if form_data else selected_base.accountability }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Grau de acompanhamento e cobrança por desempenho.
+                        </div>
+
+                        <label>Reconhecimento financeiro</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="financial_recognition" value="{{ form_data.financial_recognition if form_data else selected_base.financial_recognition }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Incentivos monetários ligados ao trabalho docente/institucional.
+                        </div>
+
+                        <label>Educação como política de Estado</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="state_policy" value="{{ form_data.state_policy if form_data else selected_base.state_policy }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Continuidade da educação para além de mudanças de governo.
+                        </div>
+
+                        <label>Apoio familiar médio</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="family_support_mean" value="{{ form_data.family_support_mean if form_data else selected_base.family_support_mean }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Apoio médio do ambiente familiar ao processo educacional.
+                        </div>
+
+                        <label>Gestão escolar</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="school_management" value="{{ form_data.school_management if form_data else selected_base.school_management }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Qualidade média da gestão escolar.
+                        </div>
+
+                        <label>Burocracia</label>
+                        <input type="number" step="0.01" min="0.00" max="1.00" name="bureaucracy" value="{{ form_data.bureaucracy if form_data else selected_base.bureaucracy }}">
+                        <div class="field-note">
+                            Faixa sugerida: 0 a 1. Valores maiores indicam mais obstáculos administrativos.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="password-box">
+                    <label for="password">Senha de acesso</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="password-input"
+                        required
+                        value="{{ form_data.password if form_data else '' }}"
+                    >
+                    <div class="field-note">
+                        Acesso restrito para uso acadêmico controlado. Digite a senha antes de executar a simulação.
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" name="action" value="run_custom">Executar experimento</button>
+                    <a href="/" style="text-decoration:none;">
+                        <button type="button" class="secondary-btn">Resetar simulação</button>
+                    </a>
+                </div>
+            </form>
+        </section>
+
+        {% if has_custom %}
+        <section id="custom-result-section" class="anchor-target">
+            <h2>7. Resultado do experimento personalizado</h2>
+
+            <div class="success-box">
+                Simulação concluída com sucesso. Os resultados desta rodada estão apresentados abaixo.
+            </div>
+
+            <p>Os resultados abaixo pertencem apenas à rodada personalizada executada pelo pesquisador.</p>
+
+            {{ custom_results_html | safe }}
+
+            <div class="legend-box">
+                <h3>Legenda das variáveis da tabela</h3>
+                <ul>
+                    <li><strong>scenario</strong>: nome do cenário simulado</li>
+                    <li><strong>avg_knowledge</strong>: conhecimento médio acumulado dos alunos</li>
+                    <li><strong>avg_computational</strong>: pensamento computacional médio</li>
+                    <li><strong>pisa_like</strong>: indicador educacional sintético comparável dentro do modelo</li>
+                    <li><strong>tech_ready_share</strong>: proporção de alunos prontos para áreas tecnológicas</li>
+                    <li><strong>economy_productivity</strong>: produtividade econômica agregada</li>
+                    <li><strong>capital_attraction</strong>: capacidade do sistema de atrair capital</li>
+                    <li><strong>innovation_capacity</strong>: capacidade de inovação do sistema</li>
+                    <li><strong>education_investment</strong>: investimento educacional total no cenário</li>
+                    <li><strong>effective_spending</strong>: parcela do investimento que efetivamente gera ação útil</li>
+                    <li><strong>spending_loss</strong>: perda entre gasto nominal e gasto efetivo</li>
+                    <li><strong>institutional_quality</strong>: indicador sintético da qualidade institucional</li>
+                </ul>
+            </div>
+
+            <p>
+                <a href="/download/custom-csv">
+                    <button type="button">Baixar CSV da rodada personalizada</button>
+                </a>
+
+                <a href="/custom-report" target="_blank">
+                    <button type="button">Abrir relatório do experimento</button>
+                </a>
+            </p>
+
+            <div class="field-note">
+                Depois de abrir o relatório, use Ctrl + P no navegador para salvar como PDF.
+            </div>
+        </section>
+
+        <section>
+            <h2>8. Parâmetros usados no experimento</h2>
+            <pre>{{ used_params }}</pre>
+        </section>
+
+        <section>
+            <h2>9. Interpretação automática do experimento</h2>
+            <ul>
+                {% for item in custom_insights %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section>
+            <h2>10. Gráficos do experimento personalizado</h2>
+            <div class="grid">
+                {% for file_name, explanation in custom_chart_files %}
+                <div class="card chart-card">
+                    <p>{{ explanation }}</p>
+                    <img
+                        src="{{ url_for('static', filename='output/' + file_name) }}"
+                        alt="{{ file_name }}"
+                        class="chart-clickable"
+                        onclick="openModal(this.src)"
+                    >
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    </main>
+
+    <footer>
+        © 2026 Dejanir de Almeida Junior<br>
+        Projeto de Pesquisa de Mestrado — PPGET / IFTM<br>
+        Contato: junekko@msn.com
+    </footer>
+
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-close">
+                <button type="button" onclick="closeModal()">Fechar</button>
+            </div>
+            <img id="modalImage" src="" alt="Gráfico ampliado">
+        </div>
+    </div>
+
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div>
+            <h2 style="margin-bottom:8px;">Executando simulação</h2>
+            <p style="margin:0;">
+                O modelo está sendo processado e os gráficos estão sendo gerados. Aguarde alguns segundos.
+            </p>
+        </div>
+    </div>
+
+    <script>
+    function openModal(src) {
+        document.getElementById("modalImage").src = src;
+        document.getElementById("imageModal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("imageModal").style.display = "none";
+        document.getElementById("modalImage").src = "";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("simulationForm");
+        const overlay = document.getElementById("loadingOverlay");
+
+        if (form && overlay) {
+            form.addEventListener("submit", function () {
+                setTimeout(function () {
+                    overlay.style.display = "flex";
+                }, 350);
+            });
+        }
+
+        const experimentSection = document.getElementById("experiment-section");
+        const customResultSection = document.getElementById("custom-result-section");
+        const hasError = document.body.dataset.hasError === "true";
+        const hasSuccess = document.body.dataset.hasSuccess === "true";
+
+        if (hasError && experimentSection) {
+            experimentSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        if (hasSuccess && customResultSection) {
+            customResultSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    });
+    </script>
+</body>
+</html>
+
+
