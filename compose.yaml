@@ -1,0 +1,7 @@
+services:
+  simulador-educacional:
+    build: .
+    container_name: simulador-educacional-container
+    ports:
+      - "8002:5000"
+    restart: unless-stopped

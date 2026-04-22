@@ -564,9 +564,12 @@
 
                 <div class="form-actions">
                     <button type="submit" name="action" value="run_custom">Executar experimento</button>
-                    <a href="/" style="text-decoration:none;">
+                    <a href="{{ url_for('index') }}" style="text-decoration:none;">
                         <button type="button" class="secondary-btn">Resetar simulação</button>
                     </a>
+
+
+
                 </div>
             </form>
         </section>
@@ -602,11 +605,11 @@
             </div>
 
             <p>
-                <a href="/download/custom-csv">
+                <a href="{{ url_for('download_custom_csv') }}">
                     <button type="button">Baixar CSV da rodada personalizada</button>
                 </a>
 
-                <a href="/custom-report" target="_blank">
+                <a href="{{ url_for('custom_report') }}" target="_blank">
                     <button type="button">Abrir relatório do experimento</button>
                 </a>
             </p>

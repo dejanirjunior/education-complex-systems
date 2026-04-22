@@ -8,10 +8,12 @@ from flask import Flask, render_template, request, send_file
 from scenarios import Scenario, SCENARIOS
 from simulation import Simulation
 
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 APP_PASSWORD = os.environ.get("APP_PASSWORD", "simulador2026")
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1, x_prefix=1)
 
 STATIC_OUTPUT_DIR = os.path.join("static", "output")
 os.makedirs(STATIC_OUTPUT_DIR, exist_ok=True)

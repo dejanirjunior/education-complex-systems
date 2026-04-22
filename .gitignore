@@ -1,8 +1,16 @@
+# Ambiente
 .venv/
+venv/
+
+# Python
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.DS_Store
 
-static/output/
+# Logs
+*.log
+
+# Outputs do simulador
+output/
+
+# Sistema
+.DS_Store

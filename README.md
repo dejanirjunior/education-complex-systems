@@ -1,130 +1,154 @@
-# 🎓 Education Complex Systems Simulator  
-### Modeling the Virtuous Triangle between Education, Economy, and Technology
+# 🎓 Education Complex Systems Simulator
+### Virtuous Triangle: Education, Technology, and Economy
 
-This project implements a computational simulation based on **complex systems theory** to explore the interaction between **education, economic development, and technological capacity**.
+This project implements a **complex systems simulation** to study the interaction between:
 
-It is part of a **master’s research project (PPGET / IFTM)** focused on understanding how the introduction of **computing education** can trigger a **virtuous cycle of development**.
+- Education systems  
+- Technological capability  
+- Economic productivity  
 
----
-
-## 🧠 Conceptual Framework
-
-The model is based on the hypothesis of a **Virtuous Triangle**:
-
-> **Education → Technology → Economy → (reinforces Education)**
-
-When computing education is effectively introduced:
-
-- Human capital improves  
-- Innovation increases  
-- Economic productivity grows  
-- Capital is attracted  
-- More investment returns to education  
-
-However, this cycle depends heavily on:
-
-- Institutional quality  
-- Efficiency of public spending  
-- Economic freedom  
-- Policy stability  
+It is part of a **Master’s research project (PPGET / IFTM)** focused on evaluating the impact of **computing education** on national development.
 
 ---
 
-## 🔬 What This Simulator Does
+## 🌐 Live Access (On-Demand)
 
-The system simulates:
+The simulator is available online when the research environment is active.
 
-- Students, teachers, schools, and firms as interacting agents  
-- Learning processes and skill accumulation  
-- Conversion of education into productivity and innovation  
-- Institutional constraints (corruption, bureaucracy, risk, etc.)  
+👉 Access link is generated dynamically using a secure tunnel (ngrok).  
+👉 Contact the author to obtain the current active link.
 
-It allows:
+---
 
-### ✔ Standard comparison
-- Predefined scenarios based on different policy environments
+## 🧠 Conceptual Model
 
-### ✔ Experimental simulation
-- Custom parameter tuning by researchers
+The simulation is based on the hypothesis of a **Virtuous Triangle**:
 
-### ✔ Outputs
-- Synthetic education indicator (PISA-like)
+Education → Technology → Economy → (reinforces Education)
+
+
+Key mechanisms:
+
+- Skill formation (knowledge + computational thinking)
+- Conversion into productivity and innovation
+- Institutional modulation (efficiency, corruption, policy stability)
+- Capital attraction and reinvestment
+
+---
+
+## 🔬 What the Simulator Provides
+
+### Standard Analysis
+- Predefined scenarios
+- Comparative outputs
+
+### Experimental Lab
+- Full parameter control
+- Scenario customization
+
+### Outputs
+- PISA-like educational indicator
 - Computational thinking level
 - Economic productivity
-- Capital attraction
 - Innovation capacity
+- Capital attraction
 - Inequality dynamics
 
 ---
 
-## 🖥️ Interface
+## ⚙️ Running Locally (Development Mode)
 
-The application provides:
+### 1. Clone repository
 
-- 📊 Comparative dashboards  
-- 🔍 Interactive experiment lab  
-- 📈 Automatic graph generation  
-- 📁 CSV export  
-- 📄 Report generation (printable as PDF)  
-
----
-
-## ⚙️ How to Run Locally
-
-### 1. Clone the repository
-
-
-git clone https://github.com/SEU_USUARIO/education-complex-systems.git
+```bash
+git clone https://github.com/dejanirjunior/education-complex-systems.git
 cd education-complex-systems
 
 2. Create virtual environment
 python3 -m venv .venv
 source .venv/bin/activate
-
 3. Install dependencies
 pip install -r requirements.txt
-
-4. Run the application
+4. Run application
 python app.py
+5. Access locally
+http://localhost:5000
+🌍 Running as Public Server (Recommended)
 
-🧪 Example Use Cases
+This project is designed to be served from a local Linux machine using ngrok.
 
-This tool can be used for:
+Start the simulator:
+./start_simulator.sh
+Get public link:
+curl -s http://127.0.0.1:4040/api/tunnels | python3 -m json.tool
 
-Academic research in education and economics
-Policy simulation and comparative analysis
-Teaching complex systems and computational modeling
-Exploring institutional impacts on development
-📊 Model Characteristics
-Agent-based simulation (students, teachers, firms)
-Stochastic behavior controlled by seed
-Non-linear interactions between subsystems
-Emergent macro indicators from micro-level dynamics
+Look for:
+
+"public_url": "https://xxxxx.ngrok-free.dev"
+Stop the simulator:
+./stop_simulator.sh
+🔐 Access Control
+
+The simulation interface requires a password:
+
+simulador2026
+
+This prevents uncontrolled usage in a public environment.
+
 ⚠️ Important Notes
-The "PISA-like" indicator is synthetic, not real-world data
 The model is exploratory, not predictive
-Results should be interpreted comparatively, not absolutely
-🧩 Future Improvements
-Multi-scenario simultaneous execution
+The “PISA-like” indicator is synthetic
+Results should be interpreted comparatively
+Performance depends on the host machine
+🧩 System Characteristics
+Agent-based simulation
+Stochastic dynamics (seed-controlled)
+Emergent macro indicators
+Multi-variable institutional influence
+🧪 Example Use Cases
+Academic research
+Policy scenario testing
+Education system modeling
+Complex systems teaching
+🚀 Deployment Strategy
+
+Current architecture:
+
+Linux Host → Flask App → ngrok → Public URL
+
+Advantages:
+
+Full control over performance
+No cloud cost
+Real-time experimentation
+🔮 Future Improvements
+Persistent public endpoint
+Cloud deployment (controlled)
 Sensitivity analysis tools
-Calibration with real-world datasets (PISA, World Bank)
-Integration with AI-based interpretation
-Cloud deployment with controlled access
+Integration with real-world datasets
+AI-assisted interpretation
 👨‍🎓 Author
 
 Dejanir de Almeida Junior
 Master’s Research Project – PPGET / IFTM
 
-📧 Contact: junekko@msn.com
+📧 junekko@msn.com
 
-📚 Research Context
-
-This simulator is part of a broader research investigating:
-
-The role of computing education in high-performing countries
-The relationship between education quality and economic growth
-Institutional factors influencing development
 📄 License
 
-This project is intended for academic and research purposes.
-Feel free to use and adapt with proper attribution.
+Academic and research use only.
+Attribution required.
+
+
+---
+
+# 🚀 Próximo passo
+
+Agora execute:
+
+```bash
+git add README.md
+git commit -m "Add operational README"
+git push
+
+
