@@ -41,6 +41,44 @@
             gap: 16px;
         }
 
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .scenario-card {
+            min-width: 0;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .scenario-card h3 {
+            font-size: 18px;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .scenario-card p {
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 1100px) {
+            .scenario-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 700px) {
+            .scenario-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+
         .card {
             border: 1px solid #e5e7eb;
             border-radius: 10px;
@@ -280,6 +318,49 @@
             color: #64748b;
             border-top: 1px solid #e5e7eb;
         }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .comparison-table {
+            width: 100%;
+            min-width: 1100px;
+            border-collapse: collapse;
+            margin-top: 0;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #d1d5db;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .comparison-table th {
+            background: #e5e7eb;
+        }
+
+        .comparison-table .col-en {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111827;
+            line-height: 1.2;
+        }
+
+        .comparison-table .col-pt {
+            font-size: 11px;
+            font-weight: 400;
+            color: #475569;
+            line-height: 1.2;
+            margin-top: 3px;
+        }
+
     </style>
 </head>
 <body data-has-error="{{ 'true' if error_message else 'false' }}" data-has-success="{{ 'true' if success_message else 'false' }}">
@@ -311,9 +392,9 @@
 
         <section>
             <h2>2. Cenários padrão do modelo</h2>
-            <div class="grid">
+            <div class="scenario-grid">
                 {% for scenario in scenarios %}
-                <div class="card">
+                <div class="card scenario-card">
                     <h3>{{ scenario.name }}</h3>
                     <p>{{ scenario_descriptions[scenario.name] }}</p>
                 </div>
@@ -327,7 +408,12 @@
                 A tabela abaixo mostra o estado final dos cenários padrão após a simulação. Ela é o ponto de partida da leitura científica do modelo.
             </p>
 
-            {{ default_comparison_html | safe }}
+            <div class="table-wrapper">
+                 {{ default_comparison_html | safe }}
+            </div>
+
+
+
 
             <div class="legend-box">
                 <h3>Legenda das variáveis da tabela</h3>
@@ -584,7 +670,12 @@
 
             <p>Os resultados abaixo pertencem apenas à rodada personalizada executada pelo pesquisador.</p>
 
-            {{ custom_results_html | safe }}
+            <div class="table-wrapper">
+                 {{ custom_results_html | safe }}
+            </div>
+
+
+
 
             <div class="legend-box">
                 <h3>Legenda das variáveis da tabela</h3>

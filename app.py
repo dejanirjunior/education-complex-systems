@@ -244,6 +244,51 @@ def generate_custom_insights(final_row: pd.Series):
     return insights
 
 
+def build_bilingual_table_html(df: pd.DataFrame) -> str:
+    column_labels = {
+        "scenario": ("scenario", "Cenário"),
+        "avg_knowledge": ("avg_knowledge", "Conhecimento médio"),
+        "avg_computational": ("avg_computational", "Pensamento computacional"),
+        "pisa_like": ("pisa_like", "Indicador tipo PISA"),
+        "tech_ready_share": ("tech_ready_share", "Prontidão tecnológica"),
+        "economy_productivity": ("economy_productivity", "Produtividade econômica"),
+        "capital_attraction": ("capital_attraction", "Atração de capital"),
+        "innovation_capacity": ("innovation_capacity", "Capacidade de inovação"),
+        "education_investment": ("education_investment", "Investimento em educação"),
+        "effective_spending": ("effective_spending", "Gasto efetivo"),
+        "spending_loss": ("spending_loss", "Perda de gasto"),
+        "institutional_quality": ("institutional_quality", "Qualidade institucional"),
+    }
+
+    thead_cells = []
+    for col in df.columns:
+        en, pt = column_labels.get(col, (col, col))
+        thead_cells.append(
+            f"""
+            <th>
+                <div class="col-en">{en}</div>
+                <div class="col-pt">{pt}</div>
+            </th>
+            """
+        )
+
+    thead_html = "<thead><tr>" + "".join(thead_cells) + "</tr></thead>"
+
+    tbody_rows = []
+    for _, row in df.iterrows():
+        cells = []
+        for value in row:
+            if isinstance(value, float):
+                cells.append(f"<td>{value:.6f}</td>")
+            else:
+                cells.append(f"<td>{value}</td>")
+        tbody_rows.append("<tr>" + "".join(cells) + "</tr>")
+
+    tbody_html = "<tbody>" + "".join(tbody_rows) + "</tbody>"
+
+    return f'<table class="comparison-table">{thead_html}{tbody_html}</table>'
+
+
 @app.route("/download/custom-csv")
 def download_custom_csv():
     file_path = os.path.join(STATIC_OUTPUT_DIR, "custom_simulation_results.csv")
@@ -293,7 +338,7 @@ def index():
     default_results, default_comparison = run_default_comparison()
     default_insights = generate_default_insights(default_comparison)
 
-    default_comparison_html = default_comparison.to_html(index=False, classes="comparison-table", border=0)
+    default_comparison_html = build_bilingual_table_html(default_comparison)
 
     default_chart_files = [
         ("default_grafico_pisa_like.png", "Comparação padrão do desempenho educacional sintético."),
@@ -403,7 +448,7 @@ def index():
             seed=seed,
         )
 
-        custom_results_html = summary_df.to_html(index=False, classes="comparison-table", border=0)
+        custom_results_html = build_bilingual_table_html(summary_df)
         custom_insights = generate_custom_insights(final_row)
         has_custom = True
         success_message = "Simulação executada com sucesso."
